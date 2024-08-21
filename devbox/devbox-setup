@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+# Summary: Run devbox setup scripts
+# Usage: devbox setup -l|--list
+#        devbox setup <script_name>
+
+set -e
+[ -n "$DEVBOX_DEBUG" ] && set -x
+
+setup_dir="${DEVBOX_ROOT}/setup"
+
+if [ -d "$setup_dir" ]; then
+  setup_dir="$(realpath "$setup_dir")"
+fi
+
+# Discover setup scripts
+shopt -s dotglob nullglob
+setup_scripts=("$setup_dir"/*)
+script_names=("${setup_scripts[@]##*/}")
+shopt -u dotglob nullglob
+
+# Provide devbox completions
+for arg; do
+  case "$arg" in
+  --complete)
+    echo --list
+    printf "%s\n" "${script_names[@]}"
+    exit
+    ;;
+  --list | -l)
+    echo "available setup options:"
+    printf " - %s\n" "${script_names[@]}"
+    exit
+    ;;
+  -*)
+    devbox-help --usage setup >&2
+    exit 1
+    ;;
+  *)
+    SCRIPT_NAME=$1
+    shift
+    ;;
+  esac
+done
+
+if [ -f "${setup_dir}/${SCRIPT_NAME}" ]; then
+  "${setup_dir}/${SCRIPT_NAME}" "$@"
+else
+  echo "Setup script not found: ${SCRIPT_NAME}"
+  echo "setup_dir: ${setup_dir}"
+fi
