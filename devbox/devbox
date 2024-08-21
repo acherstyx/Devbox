@@ -91,18 +91,6 @@ if [ "${bin_path%/*}" != "$DEVBOX_ROOT" ]; then
 fi
 export PATH="${bin_path}:${PATH}"
 
-#DEVBOX_HOOK_PATH="${DEVBOX_HOOK_PATH}:${DEVBOX_ROOT}/devbox.d"
-#if [ "${bin_path%/*}" != "$DEVBOX_ROOT" ]; then
-#  # Add devbox's own `devbox.d` unless devbox was cloned to DEVBOX_ROOT
-#  DEVBOX_HOOK_PATH="${DEVBOX_HOOK_PATH}:${bin_path%/*}/devbox.d"
-#fi
-#DEVBOX_HOOK_PATH="${DEVBOX_HOOK_PATH}:/usr/local/etc/devbox.d:/etc/devbox.d:/usr/lib/devbox/hooks"
-#for plugin_hook in "${DEVBOX_ROOT}/plugins/"*/etc/devbox.d; do
-#  DEVBOX_HOOK_PATH="${DEVBOX_HOOK_PATH}:${plugin_hook}"
-#done
-#DEVBOX_HOOK_PATH="${DEVBOX_HOOK_PATH#:}"
-#export DEVBOX_HOOK_PATH
-
 shopt -u nullglob
 
 command="$1"

@@ -1,0 +1,93 @@
+#!/usr/bin/env bash
+# Summary: Run user-defined shell snippets
+# Usage: devbox snippets <snippet_name>
+#        devbox snippets [--list|-l]               # List all snippets
+#        devbox snippets [--add|--remove] <path>   # Add/Remove snippets
+
+set -e
+[ -n "$DEVBOX_DEBUG" ] && set -x
+
+snippet_dir="${DEVBOX_ROOT}/snippets"
+
+if [ -d "$snippet_dir" ]; then
+  snippet_dir="$(realpath "$snippet_dir")"
+fi
+
+# Discover snippets
+shopt -s dotglob nullglob
+snippet_path=("${snippet_dir}"/*)
+shopt -u dotglob nullglob
+
+# Provide devbox completions
+if [ $1 = '--complete' ]; then
+  echo "--add"
+  echo "--remove"
+  echo "--list"
+  echo "--edit"
+  exit
+fi
+
+add_snippet() {
+  for path; do
+    if [ ! -f $path ]; then
+      echo "$path is not a valid file."
+      continue
+    fi
+    name=${path##*/}
+    if [ -f "${snippet_dir}/${name}" ]; then
+      echo "A snippet named $name already exist."
+      continue
+    fi
+
+    mkdir -p "${snippet_dir}"
+    cp "${path}" "${snippet_dir}"
+    chmod +x "${snippet_dir}/${name}"
+
+    echo "Add snippet: ${name}"
+    echo "Now, you can use it directly:"
+    echo "> ${name} ..."
+  done
+}
+
+remove_snippet() {
+  for name; do
+    if [ ! -f "${snippet_dir}/${name}" ]; then
+      echo "Snippet named ${name} do not exist."
+      continue
+    fi
+
+    mkdir -p "${snippet_dir}/.trash"
+    mv "${snippet_dir}/${name}" "${snippet_dir}/.trash"
+    echo "Move snippet ${name} to trash."
+  done
+}
+
+case "$1" in
+--list | -l)
+  echo "Snippet directory: ${snippet_dir}"
+  echo "Available snippets: "
+  #    printf " - %s\n" "${snippets[@]}"
+  for path in "${snippet_path[@]}"; do
+    if [ -f "$path" ]; then
+      printf " - %s\n" "${path##*/}"
+    fi
+  done
+  exit
+  ;;
+--add | -a)
+  shift
+  add_snippet "$@"
+  ;;
+--remove | -r)
+  shift
+  remove_snippet "$@"
+  ;;
+--edit | -e)
+  shift
+  vi "${snippet_dir}/$1"
+  exit
+  ;;
+*)
+  devbox-help --usage snippets
+  ;;
+esac
