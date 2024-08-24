@@ -1,0 +1,16 @@
+#!/bin/bash
+# Install conda, set `auto_activate_base` to false
+
+# Check if miniconda is already installed
+if [ -d "${HOME}/miniconda3" ]; then
+  echo "${HOME}/miniconda3 already exists. Skipping installation."
+  exit 1
+fi
+
+mkdir -p "${HOME}/miniconda3"
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O "${HOME}/miniconda3/miniconda.sh"
+bash "${HOME}/miniconda3/miniconda.sh" -b -u -p "${HOME}/miniconda3"
+rm -rf "${HOME}/miniconda3/miniconda.sh"
+
+"${HOME}/miniconda3/bin/conda" init "${SHELL##*/}"
+"${HOME}/miniconda3/bin/conda" config --set auto_activate_base false
