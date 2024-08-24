@@ -19,28 +19,26 @@ script_names=("${setup_scripts[@]##*/}")
 shopt -u dotglob nullglob
 
 # Provide devbox completions
-for arg; do
-  case "$arg" in
-  --complete)
-    echo --list
-    printf "%s\n" "${script_names[@]}"
-    exit
-    ;;
-  --list | -l)
-    echo "available setup options:"
-    printf " - %s\n" "${script_names[@]}"
-    exit
-    ;;
-  -*)
-    devbox-help --usage setup >&2
-    exit 1
-    ;;
-  *)
-    SCRIPT_NAME=$1
-    shift
-    ;;
-  esac
-done
+case "$1" in
+--complete)
+  echo --list
+  printf "%s\n" "${script_names[@]}"
+  exit
+  ;;
+--list | -l)
+  echo "available setup options:"
+  printf " - %s\n" "${script_names[@]}"
+  exit
+  ;;
+-*)
+  devbox-help --usage setup >&2
+  exit 1
+  ;;
+*)
+  SCRIPT_NAME=$1
+  shift
+  ;;
+esac
 
 if [ -f "${setup_dir}/${SCRIPT_NAME}" ]; then
   "${setup_dir}/${SCRIPT_NAME}" "$@"

@@ -20,10 +20,17 @@ shopt -u dotglob nullglob
 
 # Provide devbox completions
 if [ $1 = '--complete' ]; then
-  echo "--add"
-  echo "--remove"
-  echo "--list"
-  echo "--edit"
+  case $2 in
+  -*)
+    ls
+    ;;
+  *)
+    echo "--add"
+    echo "--remove"
+    echo "--list"
+    echo "--edit"
+    ;;
+  esac
   exit
 fi
 

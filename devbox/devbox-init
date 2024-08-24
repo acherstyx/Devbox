@@ -175,7 +175,7 @@ function help_() {
 }
 
 function init_dirs() {
-  mkdir -p "${DEVBOX_ROOT}/"snippets
+  mkdir -p "${DEVBOX_ROOT}/"{snippets,cache}
 }
 
 function print_path() {
