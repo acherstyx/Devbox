@@ -1,0 +1,19 @@
+- defaults:
+    link:
+      create: true
+      relink: true
+
+- shell:
+    - command: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+      description: ">>> Oh-My-Zsh"
+    - command: curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
+      description: ">>> Zplug"
+
+- clean: [ '~' ]
+
+- link:
+    ~/.zshrc:
+      force: true
+    ~/.persistent:
+    ~/.shell:
+    ~/.devbox:

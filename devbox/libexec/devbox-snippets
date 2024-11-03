@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 # Summary: Run user-defined shell snippets
 # Usage: devbox snippets <snippet_name>
-#        devbox snippets [--list|-l]               # List all snippets
-#        devbox snippets [--add|--remove] <path>   # Add/Remove snippets
+#        devbox snippets --list|-l                # List all snippets
+#        devbox snippets --add <path>             # Add snippet
+#        devbox snippets --remove <snippet_name>  # Remove snippet
+#        devbox snippets --edit <snippet_name>    # Edit snippet
 
 set -e
 [ -n "$DEVBOX_DEBUG" ] && set -x
@@ -69,6 +71,16 @@ remove_snippet() {
   done
 }
 
+edit_snippet() {
+  for name; do
+    mkdir -p "${snippet_dir}"
+    vi "${snippet_dir}/$name"
+    if [ -f "${snippet_dir}/${name}" ]; then
+      chmod +x "${snippet_dir}/${name}"
+    fi
+  done
+}
+
 case "$1" in
 --list | -l)
   echo "Snippet directory: ${snippet_dir}"
@@ -91,7 +103,7 @@ case "$1" in
   ;;
 --edit | -e)
   shift
-  vi "${snippet_dir}/$1"
+  edit_snippet "$@"
   exit
   ;;
 *)

@@ -1,4 +1,0 @@
-#!/usr/bin/env bash
-
-IF=${1:-eth0}
-speedometer -r "${IF}" -t "${IF}"

@@ -6,7 +6,7 @@
 set -e
 [ -n "$DEVBOX_DEBUG" ] && set -x
 
-setup_dir="${DEVBOX_ROOT}/setup_scripts"
+setup_dir="${DEVBOX_ROOT}/setup"
 
 if [ -d "$setup_dir" ]; then
   setup_dir="$(realpath "$setup_dir")"

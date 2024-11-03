@@ -1,4 +1,3 @@
-ARG HOME="/root"
 ARG DEVBOX_ROOT=""
 ARG DEBIAN_FRONTEND=noninteractive
 ARG DEVBOX_BASE_IMAGE=debian:latest
@@ -32,12 +31,12 @@ RUN sed -i 's/ZSH_THEME="robbyrussell"/ZSH_THEME=""/' $HOME/.zshrc && \
     echo '\n\
 # >>> zplug section >>>\n\
 source ~/.zplug/init.zsh\n\n\
-zplug \"mafredri/zsh-async\", from:github\n\
-zplug \"sindresorhus/pure\", use:pure.zsh, from:github, as:theme\n\
-# zplug \"romkatv/powerlevel10k\", as:theme, depth:1\n\n\
-zplug \"zsh-users/zsh-autosuggestions\", as:plugin, defer:2\n\
-zplug \"zdharma/fast-syntax-highlighting\", as:plugin, defer:2\n\
-zplug \"conda-incubator/conda-zsh-completion\", as:plugin, defer:2\n\n\
+zplug "mafredri/zsh-async", from:github\n\
+zplug "sindresorhus/pure", use:pure.zsh, from:github, as:theme\n\
+# zplug "romkatv/powerlevel10k", as:theme, depth:1\n\n\
+zplug "zsh-users/zsh-autosuggestions", as:plugin, defer:2\n\
+zplug "zdharma/fast-syntax-highlighting", as:plugin, defer:2\n\
+zplug "conda-incubator/conda-zsh-completion", as:plugin, defer:2\n\n\
 if ! zplug check --verbose; then\n\
     zplug install\n\
 fi\n\n\
@@ -69,7 +68,7 @@ RUN echo 'deb [trusted=yes] https://apt.fury.io/lemoony/ /' | tee /etc/apt/sourc
 RUN echo '\n\
 # >>> devbox section >>>\n\
 export DEVBOX_ROOT=${DEVBOX_ROOT:-$HOME/.devbox}\n\
-[[ -d $DEVBOX_ROOT/devbox ]] && export PATH=\"$DEVBOX_ROOT/devbox:$PATH\"\n\
-eval \"$(devbox init -)\"\n\
+[[ -d $DEVBOX_ROOT/devbox ]] && export PATH="$DEVBOX_ROOT/devbox:$PATH"\n\
+eval "$(devbox init -)"\n\
 # <<< devbox section <<<\n\
 ' >> $HOME/.zshrc
