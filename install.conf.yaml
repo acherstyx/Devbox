@@ -17,3 +17,7 @@
     ~/.persistent:
     ~/.shell:
     ~/.devbox:
+
+- create:
+    - ~/Downloads
+    - ~/Projects

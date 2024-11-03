@@ -126,10 +126,19 @@ export DEVBOX_ROOT=${DEVBOX_ROOT:-"$HOME/.devbox"}
 eval "$(devbox init -)"
 source $DEVBOX_ROOT/completions/devbox.zsh
 
-# Custom aliases
-source ~/.shell/aliases.sh
-source ~/.shell/exports.sh
-source ~/.shell/functions.sh
+# Aliases
+source "${HOME}/.shell/aliases.sh"
+
+# Exports
+source "${HOME}/.shell/exports.sh"
+
+# Functions
+source "${HOME}/.shell/functions.sh"
+
+# Customization for each machine or internal environment, will not included in the public repository.
+if [[ -f "${HOME}/.shell/custom.sh" ]]; then
+    source ${HOME}/.shell/custom.sh
+fi
 
 # Set zsh history to persistent folder
 export HISTFILE="${HOME}/.persistent/.zsh_history"
